@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KoreaTrip - 목포 & 광주 당일치기 여행 완벽 가이드</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #3b82f6;
+            --accent-color: #f59e0b;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: #fff;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 0 20px;
+        }
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+        .nav-links button {
+            background: none;
+            border: none;
+            font-family: inherit;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 15px;
+            transition: color 0.2s;
+            padding: 5px 0;
+        }
+        .nav-links button:hover { color: var(--primary-color); }
+        .nav-links button.active { color: var(--primary-color); border-bottom: 2px solid var(--primary-color); }
+
+        /* Hero Section */
+        .hero {
+            height: 450px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            padding: 0 20px;
+            transition: background 0.5s ease;
+        }
+        .hero.mokpo {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+                        url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1280&q=80') center/cover;
+            background-color: #1e293b;
+        }
+        .hero.gwangju {
+            background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1280&q=80') center/cover;
+            background-color: #312e81;
+        }
+        .hero h1 { font-size: clamp(32px, 5vw, 52px); margin-bottom: 16px; font-weight: 900; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .hero p { font-size: 18px; max-width: 600px; opacity: 0.9; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+        .hero-credit {
+            position: absolute;
+            right: 20px;
+            bottom: 12px;
+            color: #fff;
+            font-size: 12px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1100px;
+            margin: -60px auto 60px;
+            padding: 0 20px;
+        }
+
+        /* City Sections */
+        .city-section { display: none; }
+        .city-section.active { display: block; }
+
+        /* Tab System */
+        .plan-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            position: relative;
+            z-index: 2;
+            min-height: 96px;
+        }
+        .tab-btn {
+            flex: 1;
+            min-width: 0;
+            padding: 16px;
+            border: none;
+            background: none;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 15px;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .tab-btn.active {
+            background: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 8px 15px rgba(37, 99, 235, 0.2);
+        }
+        .tab-btn span { font-size: 12px; font-weight: 500; opacity: 0.8; }
+
+        /* Course Content */
+        .course-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .course-card.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .course-header {
+            padding: 40px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .course-tag {
+            display: inline-block;
+            padding: 6px 14px;
+            background: #eff6ff;
+            color: var(--primary-color);
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .course-header h2 { font-size: 32px; margin-bottom: 10px; }
+
+        .course-body { padding: 40px; }
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+        .step {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .step::before {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+        .step-time { color: var(--primary-color); font-weight: 700; font-size: 14px; margin-bottom: 5px; display: block; }
+        .step-title { font-size: 20px; font-weight: 800; margin-bottom: 12px; }
+        .step-img {
+            width: 100%;
+            height: 250px;
+            border-radius: 16px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            background-color: #f1f5f9;
+        }
+        .step-desc { color: var(--text-muted); font-size: 16px; }
+        .image-credit {
+            margin: -8px 0 15px;
+            text-align: right;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .pro-tip {
+            background: #fff7ed;
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 20px;
+        }
+        .pro-tip b { color: #9a3412; }
+
+        /* Like & Social */
+        .social-bar {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 30px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+        .like-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .like-btn.liked { background: #fee2e2; color: #ef4444; border-color: #fca5a5; }
+
+        /* Comments Section */
+        .comments-section {
+            margin-top: 40px;
+            background: #fff;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .comments-section h3 { font-size: 24px; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+        
+        .comment-form {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 14px; }
+        .comment-form input, .comment-form textarea, .comment-form select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+        }
+        .comment-form textarea { height: 100px; resize: none; }
+        
+        /* Smart Guard UI */
+        .smart-guard {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px dashed #cbd5e1;
+        }
+        .quiz-title { font-size: 13px; color: #475569; margin-bottom: 10px; display: block; }
+        .quiz-box { display: flex; align-items: center; gap: 10px; }
+        .quiz-question { font-weight: 700; color: var(--primary-color); }
+        .quiz-input { width: 120px !important; }
+
+        .submit-btn {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        .submit-btn:hover { background: #1d4ed8; }
+
+        .comments-list { list-style: none; }
+        .comment-item {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .comment-item:last-child { border-bottom: none; }
+        .comment-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .comment-author { font-weight: 800; font-size: 15px; }
+        .comment-tag {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .tag-visited { background: #dcfce7; color: #166534; }
+        .tag-info { background: #dbeafe; color: #1e40af; }
+        .comment-content { color: #334155; }
+        .comment-date { font-size: 12px; color: #94a3b8; margin-top: 8px; display: block; }
+
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            background: #1e293b;
+            color: #94a3b8;
+        }
+        .footer-logo { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 10px; display: block; }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1e293b;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        @media (max-width: 768px) {
+            .nav-links { gap: 14px; }
+            .hero { height: 350px; }
+            .hero h1 { font-size: 32px; }
+            .plan-tabs { flex-wrap: nowrap; gap: 6px; padding: 8px; }
+            .tab-btn { flex: 1 1 0; width: auto; padding: 10px 4px; font-size: 14px; }
+            .course-header, .course-body { padding: 25px; }
+            .course-header h2 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="#" onclick="switchCity('mokpo'); return false;" class="logo"><i class="fa-solid fa-map-location-dot"></i> KoreaTrip</a>
+            <ul class="nav-links">
+                <li><button id="navMokpo" onclick="switchCity('mokpo')" class="active">목포(Mokpo)</button></li>
+                <li><button id="navGwangju" onclick="switchCity('gwangju')">광주(Gwangju)</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ================= MOKPO SECTION ================= -->
+    <div id="city-mokpo" class="city-section active">
+        <section class="hero mokpo">
+            <h1>낭만 가득한 목포 당일치기</h1>
+            <p>근대 역사의 숨결과 남도 최고의 맛, 그리고 푸른 바다가 공존하는 목포로 떠나보세요.</p>
+            <div class="hero-credit">사진: Unsplash (Reliable CDN)</div>
+        </section>
+
+        <main>
+            <!-- Tab Navigation -->
+            <div class="plan-tabs">
+                <button class="tab-btn active" onclick="switchPlan('mokpo', 'A')">
+                    <span>감성 & 역사</span>
+                    Plan A
+                </button>
+                <button class="tab-btn" onclick="switchPlan('mokpo', 'B')">
+                    <span>미식 정복</span>
+                    Plan B
+                </button>
+                <button class="tab-btn" onclick="switchPlan('mokpo', 'C')">
+                    <span>힐링 & 바다</span>
+                    Plan C
+                </button>
+            </div>
+
+            <!-- Plan A: History & Emotion -->
+            <article id="mokpo-plan-A" class="course-card active">
+                <div class="course-header">
+                    <span class="course-tag">#역사탐방 #인생샷 #감성여행</span>
+                    <h2>[시간 여행] 목포 근대역사 & 시티뷰 코스</h2>
+                    <p>드라마 촬영지와 근대 건축물이 주는 고즈넉한 분위기에 취해보는 코스입니다.</p>
+                </div>
+                <div class="course-body">
+                    <div class="timeline">
+                        <div class="step">
+                            <span class="step-time">10:00 AM</span>
+                            <h3 class="step-title">목포역 & 목포근대역사관 1관</h3>
+                            <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1280&q=80" alt="목포근대역사관 1관" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">드라마 '호텔 델루나'의 촬영지로 유명한 빨간 벽돌 건물입니다. 목포의 아픈 역사와 성장을 한눈에 볼 수 있는 곳입니다.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">01:00 PM</span>
+                            <h3 class="step-title">서산동 시화골목 (연희네 슈퍼)</h3>
+                            <img src="https://images.unsplash.com/photo-1538485399060-0713528b9487?w=1280&q=80" alt="서산동 시화골목 풍경" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">영화 '1987'의 연희네 슈퍼가 있는 골목입니다. 가파른 언덕을 따라 그려진 벽화와 시를 읽으며 걷다 보면 목포 앞바다가 내려다보입니다.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">04:00 PM</span>
+                            <h3 class="step-title">유달산 노적봉 & 해상케이블카</h3>
+                            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1280&q=80" alt="목포 유달산 전망" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">목포의 영산 유달산에서 시내를 조망하고, 북항 승강장에서 케이블카를 타보세요. 바다 위를 가로지르는 짜릿함을 느낄 수 있습니다.</p>
+                        </div>
+                    </div>
+                    <div class="pro-tip">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <b>여행 꿀팁:</b> 근대역사관 앞에는 당시 방공호도 남아 있으니 꼭 함께 둘러보세요. 사진은 역사관 정면 계단 아래에서 위를 보고 찍는 게 가장 예쁩니다.
+                    </div>
+                </div>
+            </article>
+
+            <!-- Plan B: Gourmet -->
+            <article id="mokpo-plan-B" class="course-card">
+                <div class="course-header">
+                    <span class="course-tag">#목포9미 #미식가 #빵지순례</span>
+                    <h2>[식객 기행] 목포 9미(味) 정복 미식 코스</h2>
+                    <p>입안 가득 행복이 퍼지는 남도 음식의 정수! 오직 맛을 위해 떠나는 여행입니다.</p>
+                </div>
+                <div class="course-body">
+                    <div class="timeline">
+                        <div class="step">
+                            <span class="step-time">11:30 AM</span>
+                            <h3 class="step-title">민어거리 (민어회 & 민어전)</h3>
+                            <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=1280&q=80" alt="목포 민어회 요리" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">임금님 보양식으로 불리는 민어를 제대로 맛볼 수 있는 거리입니다. 회뿐만 아니라 고소한 민어전과 깊은 맛의 매운탕까지 코스로 즐겨보세요.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">02:30 PM</span>
+                            <h3 class="step-title">장터식당 (꽃게살 비빔밥)</h3>
+                            <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1280&q=80" alt="꽃게살 비빔밥 요리" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">매콤달콤한 양념에 꽃게살만 발라내어 밥에 쓱쓱 비벼 먹는 별미입니다. 김에 싸서 먹으면 밥도둑이 따로 없습니다.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">05:00 PM</span>
+                            <h3 class="step-title">씨엘비 베이커리 (새우바게트)</h3>
+                            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1280&q=80" alt="새우바게트 및 베이커리 빵" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">목포의 3대 빵집 중 하나로, 짭조름한 새우 가루와 머스타드 소스가 어우러진 새우바게트는 필수 구매 아이템입니다.</p>
+                        </div>
+                    </div>
+                    <div class="pro-tip">
+                        <i class="fa-solid fa-utensils"></i>
+                        <b>맛집 꿀팁:</b> 유명 식당은 주말 웨이팅이 길 수 있으니 '테이블링' 앱을 미리 확인하거나 점심시간보다 30분 일찍 도착하는 것을 추천합니다.
+                    </div>
+                </div>
+            </article>
+
+            <!-- Plan C: Healing & Sea -->
+            <article id="mokpo-plan-C" class="course-card">
+                <div class="course-header">
+                    <span class="course-tag">#바다산책 #힐링 #오션뷰 #일몰</span>
+                    <h2>[바다 쉼표] 힐링 오션 & 웰니스 코스</h2>
+                    <p>탁 트인 바다를 보며 걷고, 맛있는 커피와 함께 일몰을 감상하는 여유로운 코스입니다.</p>
+                </div>
+                <div class="course-body">
+                    <div class="timeline">
+                        <div class="step">
+                            <span class="step-time">02:00 PM</span>
+                            <h3 class="step-title">고하도 해안데크길</h3>
+                            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1280&q=80" alt="고하도 해안 바다 풍경" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">케이블카를 타고 고하도에 내려 해안 절벽을 따라 조성된 데크길을 걸어보세요. 시원한 바닷바람이 일상의 스트레스를 날려줍니다.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">04:30 PM</span>
+                            <h3 class="step-title">대반동 스카이워크 & 카페</h3>
+                            <img src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1280&q=80" alt="목포 바다와 야경" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">투명한 유리 바닥 아래로 바다를 느끼며 걷는 스카이워크입니다. 주변 오션뷰 카페에서 목포대교의 웅장함을 감상하세요.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">07:00 PM</span>
+                            <h3 class="step-title">갓바위 & 평화광장 분수쇼</h3>
+                            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1280&q=80" alt="갓바위 자연 풍경" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">천연기념물 갓바위를 해상보도교에서 가까이 관찰하고, 평화광장으로 이동해 화려한 '춤추는 바다분수' 공연으로 하루를 마무리하세요.</p>
+                        </div>
+                    </div>
+                    <div class="pro-tip">
+                        <i class="fa-solid fa-water"></i>
+                        <b>힐링 꿀팁:</b> 바다분수 공연은 요일마다 시간이 다를 수 있으니 방문 전 목포시청 홈페이지에서 일정을 꼭 확인하세요.
+                    </div>
+                </div>
+            </article>
+
+            <!-- Like Bar -->
+            <div class="social-bar">
+                <button class="like-btn" id="mokpoLikeBtn">
+                    <i class="fa-regular fa-heart"></i> 이 코스가 마음에 들어요 <span id="mokpoLikeCount">42</span>
+                </button>
+                <div style="flex: 1;"></div>
+                <div class="social-icons" style="color: var(--text-muted); font-size: 18px; display: flex; gap: 15px;">
+                    <i class="fa-brands fa-instagram" style="cursor: pointer;"></i>
+                    <i class="fa-brands fa-facebook" style="cursor: pointer;"></i>
+                    <i class="fa-solid fa-share-nodes" style="cursor: pointer;"></i>
+                </div>
+            </div>
+
+            <!-- Comments -->
+            <section class="comments-section">
+                <h3><i class="fa-solid fa-comments"></i> 목포 실시간 여행자 리뷰</h3>
+                
+                <div class="comment-form">
+                    <form id="mokpoCommentForm">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="form-group">
+                                <label>닉네임</label>
+                                <input type="text" id="mokpoAuthor" placeholder="이름을 입력하세요" required>
+                            </div>
+                            <div class="form-group">
+                                <label>방문 성격</label>
+                                <select id="mokpoCommentTag">
+                                    <option value="visited">다녀왔어요</option>
+                                    <option value="info">정보공유</option>
+                                    <option value="curious">궁금해요</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>댓글 내용</label>
+                            <textarea id="mokpoContent" placeholder="여행 팁이나 소감을 남겨주세요" required></textarea>
+                        </div>
+
+                        <!-- Smart Guard Section -->
+                        <div class="smart-guard">
+                            <span class="quiz-title"><i class="fa-solid fa-shield-halved"></i> <b>Smart Guard:</b> 목포의 상징적인 산 이름은? (3글자)</span>
+                            <div class="quiz-box">
+                                <span class="quiz-question">정답:</span>
+                                <input type="text" id="mokpoQuizAnswer" class="quiz-input" placeholder="유달산" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn">목포 리뷰 등록하기</button>
+                    </form>
+                </div>
+
+                <ul class="comments-list" id="mokpoCommentsList">
+                    <li class="comment-item">
+                        <div class="comment-meta">
+                            <span class="comment-author">낭만여행자</span>
+                            <span class="comment-tag tag-visited">다녀왔어요</span>
+                        </div>
+                        <p class="comment-content">Plan A로 다녀왔는데 호텔 델루나 촬영지 정말 예뻐요! 유달산 올라갈 때 편한 신발 필수입니다.</p>
+                        <span class="comment-date">2026.10.28</span>
+                    </li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <!-- ================= GWANGJU SECTION ================= -->
+    <div id="city-gwangju" class="city-section">
+        <section class="hero gwangju">
+            <h1>맛과 멋이 있는 광주 당일치기</h1>
+            <p>민주·역사의 발자취부터 남도 미식, 무등산의 여유까지. 취향에 맞는 하루 코스를 골라보세요.</p>
+            <div class="hero-credit">사진: Unsplash (Reliable CDN)</div>
+        </section>
+
+        <main>
+            <!-- Tab Navigation -->
+            <div class="plan-tabs">
+                <button class="tab-btn active" onclick="switchPlan('gwangju', '1')">
+                    <span>역사 & 예술</span>
+                    Plan 1
+                </button>
+                <button class="tab-btn" onclick="switchPlan('gwangju', '2')">
+                    <span>남도 미식</span>
+                    Plan 2
+                </button>
+                <button class="tab-btn" onclick="switchPlan('gwangju', '3')">
+                    <span>자연 & 힐링</span>
+                    Plan 3
+                </button>
+            </div>
+
+            <!-- Plan 1: History & Art -->
+            <article id="gwangju-plan-1" class="course-card active">
+                <div class="course-header">
+                    <span class="course-tag">#5·18민주화운동 #근대역사 #예술</span>
+                    <h2>[기억과 예술] 광주 역사문화 코스</h2>
+                    <p>광주의 민주·역사를 되새기고, 도심의 예술 공간과 오래된 골목을 함께 둘러보는 코스입니다.</p>
+                </div>
+                <div class="course-body">
+                    <div class="timeline">
+                        <div class="step">
+                            <span class="step-time">10:00 AM</span>
+                            <h3 class="step-title">국립5·18민주묘지</h3>
+                            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1280&q=80" alt="국립5·18민주묘지 기념 공간" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">5·18민주화운동 희생자를 기리는 추모 공간입니다. 참배와 전시 관람을 통해 광주의 역사를 차분히 살펴보세요.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">01:00 PM</span>
+                            <h3 class="step-title">국립아시아문화전당(ACC)</h3>
+                            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1280&q=80" alt="국립아시아문화전당 도심 복합문화공간" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">전시와 공연, 문화 콘텐츠를 만날 수 있는 도심 복합문화공간입니다. 방문일의 전시·공연 일정과 관람 가능 공간을 미리 확인하세요.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">04:00 PM</span>
+                            <h3 class="step-title">양림동 역사문화마을</h3>
+                            <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1280&q=80" alt="양림동 역사문화마을 골목 풍경" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">근대 선교 유적과 오래된 가옥, 개성 있는 카페가 어우러진 동네를 걸어보세요. 골목과 생활 공간을 존중하며 둘러보는 것이 좋습니다.</p>
+                        </div>
+                    </div>
+                    <div class="pro-tip">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <b>여행 꿀팁:</b> 국립5·18민주묘지는 도심에서 거리가 있으니 대중교통 이동 시간을 넉넉히 잡고, 추모 공간에서는 정숙하게 관람해 주세요.
+                    </div>
+                </div>
+            </article>
+
+            <!-- Plan 2: Gourmet -->
+            <article id="gwangju-plan-2" class="course-card">
+                <div class="course-header">
+                    <span class="course-tag">#광주송정역시장 #떡갈비 #시장먹거리</span>
+                    <h2>[맛 따라 광주] 남도 미식 코스</h2>
+                    <p>광주송정역 주변의 대표 먹거리와 전통시장을 찾아다니는 식도락 코스입니다.</p>
+                </div>
+                <div class="course-body">
+                    <div class="timeline">
+                        <div class="step">
+                            <span class="step-time">10:30 AM</span>
+                            <h3 class="step-title">1913 송정역시장</h3>
+                            <img src="https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=1280&q=80" alt="1913 송정역시장 거리" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">광주송정역 인근의 개성 있는 시장 골목을 산책하며 간식과 로컬 상점을 구경해 보세요. 점포별 영업일과 운영 시간은 방문 전에 확인하는 편이 좋습니다.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">12:30 PM</span>
+                            <h3 class="step-title">송정 떡갈비거리</h3>
+                            <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1280&q=80" alt="송정 떡갈비 요리" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">숯불 향을 입힌 광주식 떡갈비로 든든한 점심을 즐겨보세요. 식당마다 메뉴와 대기 시간이 다르니 원하는 곳을 미리 골라두면 편합니다.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">03:00 PM</span>
+                            <h3 class="step-title">양동시장</h3>
+                            <img src="https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=1280&q=80" alt="양동시장 풍경" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">광주의 큰 전통시장 중 하나로, 식재료와 생활용품, 시장 먹거리를 만날 수 있습니다. 시장 구경 후에는 인근에서 상추튀김 등 지역 별미를 찾아보세요.</p>
+                        </div>
+                    </div>
+                    <div class="pro-tip">
+                        <i class="fa-solid fa-utensils"></i>
+                        <b>미식 꿀팁:</b> 시장과 식당의 휴무일·재료 소진 시간은 달라질 수 있습니다. 여러 메뉴를 맛보고 싶다면 일행과 나눠 먹어보세요.
+                    </div>
+                </div>
+            </article>
+
+            <!-- Plan 3: Nature & Healing -->
+            <article id="gwangju-plan-3" class="course-card">
+                <div class="course-header">
+                    <span class="course-tag">#무등산 #증심사 #도심전망</span>
+                    <h2>[산과 쉼표] 무등산 자연 힐링 코스</h2>
+                    <p>무등산 자락을 천천히 걷고 도심 전망으로 하루를 마무리하는 여유로운 코스입니다.</p>
+                </div>
+                <div class="course-body">
+                    <div class="timeline">
+                        <div class="step">
+                            <span class="step-time">09:30 AM</span>
+                            <h3 class="step-title">무등산국립공원 증심사지구</h3>
+                            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1280&q=80" alt="무등산국립공원 풍경" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">증심사 입구에서 출발해 체력과 일정에 맞는 탐방로를 골라 걸어보세요. 산행 전 기상과 탐방로 통제 여부를 확인하고 물과 편한 신발을 준비하세요.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">01:30 PM</span>
+                            <h3 class="step-title">증심사</h3>
+                            <img src="https://images.unsplash.com/photo-1548013146-72479768bada?w=1280&q=80" alt="증심사 사찰 풍경" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">무등산 자락의 사찰을 둘러보며 잠시 쉬어가세요. 사찰은 실제 수행 공간이므로 안내 표지와 관람 예절을 따라 주세요.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">05:00 PM</span>
+                            <h3 class="step-title">사직공원 전망타워</h3>
+                            <img src="https://images.unsplash.com/photo-1508057198894-247b23fe5ade?w=1280&q=80" alt="사직공원 전망대 도심 야경" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">도심 가까운 공원에서 산책을 마무리하고 광주 시내 풍경을 감상해 보세요. 전망타워 운영 여부와 관람 시간은 방문 당일 확인이 필요합니다.</p>
+                        </div>
+                    </div>
+                    <div class="pro-tip">
+                        <i class="fa-solid fa-person-hiking"></i>
+                        <b>힐링 꿀팁:</b> 탐방로는 날씨와 통제 상황에 따라 이용이 달라질 수 있습니다. 무리한 산행보다 본인에게 맞는 구간을 선택하고 하산 시간을 여유 있게 잡으세요.
+                    </div>
+                </div>
+            </article>
+
+            <!-- Like Bar -->
+            <div class="social-bar">
+                <button class="like-btn" id="gwangjuLikeBtn">
+                    <i class="fa-regular fa-heart"></i> 이 코스가 마음에 들어요 <span id="gwangjuLikeCount">38</span>
+                </button>
+                <div style="flex: 1;"></div>
+                <div class="social-icons" style="color: var(--text-muted); font-size: 18px; display: flex; gap: 15px;">
+                    <i class="fa-brands fa-instagram" style="cursor: pointer;"></i>
+                    <i class="fa-brands fa-facebook" style="cursor: pointer;"></i>
+                    <i class="fa-solid fa-share-nodes" style="cursor: pointer;"></i>
+                </div>
+            </div>
+
+            <!-- Comments -->
+            <section class="comments-section">
+                <h3><i class="fa-solid fa-comments"></i> 광주 실시간 여행자 리뷰</h3>
+                
+                <div class="comment-form">
+                    <form id="gwangjuCommentForm">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="form-group">
+                                <label>닉네임</label>
+                                <input type="text" id="gwangjuAuthor" placeholder="이름을 입력하세요" required>
+                            </div>
+                            <div class="form-group">
+                                <label>방문 성격</label>
+                                <select id="gwangjuCommentTag">
+                                    <option value="visited">다녀왔어요</option>
+                                    <option value="info">정보공유</option>
+                                    <option value="curious">궁금해요</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>댓글 내용</label>
+                            <textarea id="gwangjuContent" placeholder="여행 팁이나 소감을 남겨주세요" required></textarea>
+                        </div>
+
+                        <!-- Smart Guard Section -->
+                        <div class="smart-guard">
+                            <span class="quiz-title"><i class="fa-solid fa-shield-halved"></i> <b>Smart Guard:</b> 광주의 상징적인 산 이름은? (3글자)</span>
+                            <div class="quiz-box">
+                                <span class="quiz-question">정답:</span>
+                                <input type="text" id="gwangjuQuizAnswer" class="quiz-input" placeholder="무등산" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn">광주 리뷰 등록하기</button>
+                    </form>
+                </div>
+
+                <ul class="comments-list" id="gwangjuCommentsList">
+                    <li class="comment-item">
+                        <div class="comment-meta">
+                            <span class="comment-author">빛고을나그네</span>
+                            <span class="comment-tag tag-visited">다녀왔어요</span>
+                        </div>
+                        <p class="comment-content">송정역시장 구경하고 떡갈비 먹었는데 정말 맛있었습니다! 무등산도 경치가 최고예요.</p>
+                        <span class="comment-date">2026.10.29</span>
+                    </li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <span class="footer-logo">KoreaTrip Platform</span>
+        <p>&copy; 2026 KoreaTrip Platform. All rights reserved.</p>
+        <p style="margin-top: 10px; font-size: 12px;">목포 & 광주 당일치기 여행 가이드 | 제휴 문의: hello@koreatrip.com</p>
+    </footer>
+
+    <div id="toast" class="toast">메시지가 표시됩니다.</div>
+
+    <script>
+        // City Switching
+        function switchCity(cityName) {
+            document.querySelectorAll('.city-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById('city-' + cityName).classList.add('active');
+
+            document.getElementById('navMokpo').classList.remove('active');
+            document.getElementById('navGwangju').classList.remove('active');
+            document.getElementById('nav' + cityName.charAt(0).toUpperCase() + cityName.slice(1)).classList.add('active');
+
+            showToast(cityName === 'mokpo' ? '목포 여행 가이드를 불러왔습니다.' : '광주 여행 가이드를 불러왔습니다.');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Plan Switching
+        function switchPlan(city, planId) {
+            const container = document.getElementById('city-' + city);
+            container.querySelectorAll('.course-card').forEach(card => card.classList.remove('active'));
+            container.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(city + '-plan-' + planId).classList.add('active');
+            
+            const btns = container.querySelectorAll('.tab-btn');
+            btns.forEach(btn => {
+                if(btn.innerText.includes('Plan ' + planId)) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            showToast(city.toUpperCase() + ' Plan ' + planId + ' 코스를 확인합니다.');
+        }
+
+        // Like Buttons
+        function setupLike(city, initialCount) {
+            const btn = document.getElementById(city + 'LikeBtn');
+            const countSpan = document.getElementById(city + 'LikeCount');
+            let liked = localStorage.getItem(city + '_liked') === 'true';
+            let count = parseInt(countSpan.innerText);
+
+            if(liked) {
+                btn.classList.add('liked');
+                btn.innerHTML = `<i class="fa-solid fa-heart"></i> 코스를 찜했습니다 <span id="${city}LikeCount">${count}</span>`;
+            }
+
+            btn.addEventListener('click', () => {
+                liked = !liked;
+                localStorage.setItem(city + '_liked', liked);
+                
+                const currentCountSpan = document.getElementById(city + 'LikeCount');
+                let curCount = parseInt(currentCountSpan.innerText);
+
+                if(liked) {
+                    curCount++;
+                    btn.classList.add('liked');
+                    btn.innerHTML = `<i class="fa-solid fa-heart"></i> 코스를 찜했습니다 <span id="${city}LikeCount">${curCount}</span>`;
+                    showToast('이 여행 코스를 찜했습니다!');
+                } else {
+                    curCount--;
+                    btn.classList.remove('liked');
+                    btn.innerHTML = `<i class="fa-regular fa-heart"></i> 이 코스가 마음에 들어요 <span id="${city}LikeCount">${curCount}</span>`;
+                }
+            });
+        }
+        setupLike('mokpo');
+        setupLike('gwangju');
+
+        // Comment System
+        function setupComments(city, correctQuiz) {
+            const form = document.getElementById(city + 'CommentForm');
+            const list = document.getElementById(city + 'CommentsList');
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const author = document.getElementById(city + 'Author').value;
+                const content = document.getElementById(city + 'Content').value;
+                const tag = document.getElementById(city + 'CommentTag').value;
+                const quizAnswer = document.getElementById(city + 'QuizAnswer').value.trim();
+
+                if (quizAnswer !== correctQuiz) {
+                    showToast('Smart Guard: 퀴즈 정답이 틀렸습니다. (정답: ' + correctQuiz + ')');
+                    return;
+                }
+
+                const date = new Date().toLocaleDateString('ko-KR').replace(/\. /g, '.').replace(/\.$/, '');
+                const tagLabel = { 'visited': '다녀왔어요', 'info': '정보공유', 'curious': '궁금해요' }[tag];
+                const tagClass = 'tag-' + tag;
+
+                const li = document.createElement('li');
+                li.className = 'comment-item';
+                li.style.animation = 'fadeIn 0.5s ease';
+                li.innerHTML = `
+                    <div class="comment-meta">
+                        <span class="comment-author">${author}</span>
+                        <span class="comment-tag ${tagClass}">${tagLabel}</span>
+                    </div>
+                    <p class="comment-content">${content}</p>
+                    <span class="comment-date">${date}</span>
+                `;
+
+                list.prepend(li);
+                form.reset();
+                showToast('리뷰가 성공적으로 등록되었습니다!');
+            });
+        }
+        setupComments('mokpo', '유달산');
+        setupComments('gwangju', '무등산');
+
+        // Toast Function
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

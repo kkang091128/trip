@@ -462,7 +462,7 @@
                         <div class="step">
                             <span class="step-time">01:00 PM</span>
                             <h3 class="step-title">서산동 시화골목 (연희네 슈퍼)</h3>
-                            <img src="https://images.unsplash.com/photo-1538485399060-0713528b9487?w=1280&q=80" alt="서산동 시화골목 풍경" class="step-img" loading="lazy">
+                            <img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=1280&q=80" alt="서산동 시화골목 풍경" class="step-img" loading="lazy">
                             <p class="image-credit">사진: Unsplash</p>
                             <p class="step-desc">영화 '1987'의 연희네 슈퍼가 있는 골목입니다. 가파른 언덕을 따라 그려진 벽화와 시를 읽으며 걷다 보면 목포 앞바다가 내려다보입니다.</p>
                         </div>
@@ -613,16 +613,7 @@
                     </form>
                 </div>
 
-                <ul class="comments-list" id="mokpoCommentsList">
-                    <li class="comment-item">
-                        <div class="comment-meta">
-                            <span class="comment-author">낭만여행자</span>
-                            <span class="comment-tag tag-visited">다녀왔어요</span>
-                        </div>
-                        <p class="comment-content">Plan A로 다녀왔는데 호텔 델루나 촬영지 정말 예뻐요! 유달산 올라갈 때 편한 신발 필수입니다.</p>
-                        <span class="comment-date">2026.10.28</span>
-                    </li>
-                </ul>
+                <ul class="comments-list" id="mokpoCommentsList"></ul>
             </section>
         </main>
     </div>
@@ -822,16 +813,7 @@
                     </form>
                 </div>
 
-                <ul class="comments-list" id="gwangjuCommentsList">
-                    <li class="comment-item">
-                        <div class="comment-meta">
-                            <span class="comment-author">빛고을나그네</span>
-                            <span class="comment-tag tag-visited">다녀왔어요</span>
-                        </div>
-                        <p class="comment-content">송정역시장 구경하고 떡갈비 먹었는데 정말 맛있었습니다! 무등산도 경치가 최고예요.</p>
-                        <span class="comment-date">2026.10.29</span>
-                    </li>
-                </ul>
+                <ul class="comments-list" id="gwangjuCommentsList"></ul>
             </section>
         </main>
     </div>
@@ -1031,16 +1013,7 @@
                     </form>
                 </div>
 
-                <ul class="comments-list" id="najuCommentsList">
-                    <li class="comment-item">
-                        <div class="comment-meta">
-                            <span class="comment-author">식도락가</span>
-                            <span class="comment-tag tag-visited">다녀왔어요</span>
-                        </div>
-                        <p class="comment-content">나주곰탕 국물이 정말 깔끔하고 진국이네요! 금성관 산책도 고즈넉하고 좋았습니다.</p>
-                        <span class="comment-date">2026.10.30</span>
-                    </li>
-                </ul>
+                <ul class="comments-list" id="najuCommentsList"></ul>
             </section>
         </main>
     </div>
@@ -1126,12 +1099,123 @@
         setupLike('gwangju');
         setupLike('naju');
 
-        // Comment System with Photo Gallery (Max 4 photos)
+        // Comment System with LocalStorage Persistence and Pagination (10 items per page)
         function setupComments(city, correctQuiz) {
             const form = document.getElementById(city + 'CommentForm');
             const list = document.getElementById(city + 'CommentsList');
             const photoInput = document.getElementById(city + 'PhotoInput');
             const photoPreview = document.getElementById(city + 'PhotoPreview');
+
+            let currentPage = 1;
+            const itemsPerPage = 10;
+
+            function getStoredReviews() {
+                try {
+                    const data = localStorage.getItem('koreatrip_reviews_' + city);
+                    if (data) {
+                        return JSON.parse(data);
+                    }
+                } catch (e) {}
+
+                // Default initial mock review
+                if (city === 'mokpo') {
+                    return [{
+                        author: '낭만여행자',
+                        tag: 'visited',
+                        tagLabel: '다녀왔어요',
+                        tagClass: 'tag-visited',
+                        content: "Plan A로 다녀왔는데 호텔 델루나 촬영지 정말 예뻐요! 유달산 올라갈 때 편한 신발 필수입니다.",
+                        images: [],
+                        date: '2026.10.28'
+                    }];
+                } else if (city === 'gwangju') {
+                    return [{
+                        author: '빛고을나그네',
+                        tag: 'visited',
+                        tagLabel: '다녀왔어요',
+                        tagClass: 'tag-visited',
+                        content: "송정역시장 구경하고 떡갈비 먹었는데 정말 맛있었습니다! 무등산도 경치가 최고예요.",
+                        images: [],
+                        date: '2026.10.29'
+                    }];
+                } else {
+                    return [{
+                        author: '식도락가',
+                        tag: 'visited',
+                        tagLabel: '다녀왔어요',
+                        tagClass: 'tag-visited',
+                        content: "나주곰탕 국물이 정말 깔끔하고 진국이네요! 금성관 산책도 고즈넉하고 좋았습니다.",
+                        images: [],
+                        date: '2026.10.30'
+                    }];
+                }
+            }
+
+            function saveStoredReviews(reviews) {
+                try {
+                    localStorage.setItem('koreatrip_reviews_' + city, JSON.stringify(reviews));
+                } catch (e) {
+                    showToast('로컬 저장소 저장에 실패했습니다 (용량 초과 가능).');
+                }
+            }
+
+            function renderReviews() {
+                const reviews = getStoredReviews();
+                list.innerHTML = '';
+
+                const totalPages = Math.ceil(reviews.length / itemsPerPage) || 1;
+                if (currentPage > totalPages) currentPage = totalPages;
+                if (currentPage < 1) currentPage = 1;
+
+                const start = (currentPage - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const pageReviews = reviews.slice(start, end);
+
+                pageReviews.forEach((rev) => {
+                    let galleryHtml = '';
+                    if (rev.images && rev.images.length > 0) {
+                        galleryHtml = `<div class="comment-gallery">` + 
+                            rev.images.map(src => `<img src="${src}" alt="인증샷">`).join('') + 
+                            `</div>`;
+                    }
+
+                    const li = document.createElement('li');
+                    li.className = 'comment-item';
+                    li.innerHTML = `
+                        <div class="comment-meta">
+                            <span class="comment-author">${rev.author}</span>
+                            <span class="comment-tag ${rev.tagClass}">${rev.tagLabel}</span>
+                        </div>
+                        <p class="comment-content">${rev.content}</p>
+                        ${galleryHtml}
+                        <span class="comment-date">${rev.date}</span>
+                    `;
+                    list.appendChild(li);
+                });
+
+                // Pagination UI
+                let paginationContainer = document.getElementById(city + 'Pagination');
+                if (!paginationContainer) {
+                    paginationContainer = document.createElement('div');
+                    paginationContainer.id = city + 'Pagination';
+                    paginationContainer.style.cssText = 'display: flex; justify-content: center; gap: 8px; margin-top: 25px; align-items: center;';
+                    list.after(paginationContainer);
+                }
+
+                paginationContainer.innerHTML = '';
+                if (totalPages > 1) {
+                    for (let i = 1; i <= totalPages; i++) {
+                        const pageBtn = document.createElement('button');
+                        pageBtn.innerText = i;
+                        pageBtn.style.cssText = `padding: 6px 14px; border: 1px solid var(--border-color); background: ${i === currentPage ? 'var(--primary-color)' : '#fff'}; color: ${i === currentPage ? '#fff' : 'var(--text-main)'}; border-radius: 8px; cursor: pointer; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.03);`;
+                        pageBtn.addEventListener('click', () => {
+                            currentPage = i;
+                            renderReviews();
+                        });
+                        paginationContainer.appendChild(pageBtn);
+                    }
+                }
+            }
 
             photoInput.addEventListener('change', (e) => {
                 const files = Array.from(e.target.files);
@@ -1168,36 +1252,33 @@
                 }
 
                 const previewImgs = Array.from(photoPreview.querySelectorAll('img')).map(img => img.src);
-
                 const date = new Date().toLocaleDateString('ko-KR').replace(/\. /g, '.').replace(/\.$/, '');
                 const tagLabel = { 'visited': '다녀왔어요', 'info': '정보공유', 'curious': '궁금해요' }[tag];
                 const tagClass = 'tag-' + tag;
 
-                let galleryHtml = '';
-                if (previewImgs.length > 0) {
-                    galleryHtml = `<div class="comment-gallery">` + 
-                        previewImgs.map(src => `<img src="${src}" alt="인증샷">`).join('') + 
-                        `</div>`;
-                }
+                const newReview = {
+                    author,
+                    tag,
+                    tagLabel,
+                    tagClass,
+                    content,
+                    images: previewImgs,
+                    date
+                };
 
-                const li = document.createElement('li');
-                li.className = 'comment-item';
-                li.style.animation = 'fadeIn 0.5s ease';
-                li.innerHTML = `
-                    <div class="comment-meta">
-                        <span class="comment-author">${author}</span>
-                        <span class="comment-tag ${tagClass}">${tagLabel}</span>
-                    </div>
-                    <p class="comment-content">${content}</p>
-                    ${galleryHtml}
-                    <span class="comment-date">${date}</span>
-                `;
+                const reviews = getStoredReviews();
+                reviews.unshift(newReview);
+                saveStoredReviews(reviews);
 
-                list.prepend(li);
+                currentPage = 1;
+                renderReviews();
+
                 form.reset();
                 photoPreview.innerHTML = '';
                 showToast('리뷰가 성공적으로 등록되었습니다!');
             });
+
+            renderReviews();
         }
         setupComments('mokpo', '유달산');
         setupComments('gwangju', '무등산');

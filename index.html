@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KoreaTrip - 목포 & 광주 당일치기 여행 완벽 가이드</title>
+    <title>KoreaTrip - 목포, 광주 & 나주 당일치기 여행 완벽 가이드</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -93,6 +93,11 @@
             background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
                         url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1280&q=80') center/cover;
             background-color: #312e81;
+        }
+        .hero.naju {
+            background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+                        url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1280&q=80') center/cover;
+            background-color: #065f46;
         }
         .hero h1 { font-size: clamp(32px, 5vw, 52px); margin-bottom: 16px; font-weight: 900; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
         .hero p { font-size: 18px; max-width: 600px; opacity: 0.9; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
@@ -381,6 +386,7 @@
             <ul class="nav-links">
                 <li><button id="navMokpo" onclick="switchCity('mokpo')" class="active">목포(Mokpo)</button></li>
                 <li><button id="navGwangju" onclick="switchCity('gwangju')">광주(Gwangju)</button></li>
+                <li><button id="navNaju" onclick="switchCity('naju')">나주(Naju)</button></li>
             </ul>
         </div>
     </nav>
@@ -793,10 +799,214 @@
         </main>
     </div>
 
+    <!-- ================= NAJU SECTION ================= -->
+    <div id="city-naju" class="city-section">
+        <section class="hero naju">
+            <h1>천년의 역사와 미식, 나주 당일치기</h1>
+            <p>유서 깊은 목사고을의 숨결과 진한 나주곰탕, 영산강의 풍경이 함께하는 나주로 떠나보세요.</p>
+            <div class="hero-credit">사진: Unsplash (Reliable CDN)</div>
+        </section>
+
+        <main>
+            <!-- Tab Navigation -->
+            <div class="plan-tabs">
+                <button class="tab-btn active" onclick="switchPlan('naju', 'A')">
+                    <span>역사 & 문화</span>
+                    Plan A
+                </button>
+                <button class="tab-btn" onclick="switchPlan('naju', 'B')">
+                    <span>나주곰탕 미식</span>
+                    Plan B
+                </button>
+                <button class="tab-btn" onclick="switchPlan('naju', 'C')">
+                    <span>강변 힐링</span>
+                    Plan C
+                </button>
+            </div>
+
+            <!-- Plan A: History & Culture -->
+            <article id="naju-plan-A" class="course-card active">
+                <div class="course-header">
+                    <span class="course-tag">#금성관 #나주목문화관 #역사탐방</span>
+                    <h2>[천년 고을] 나주 역사문화 코스</h2>
+                    <p>조선시대 목사고을의 중심이었던 유적지와 전통 건축물의 멋을 느끼는 코스입니다.</p>
+                </div>
+                <div class="course-body">
+                    <div class="timeline">
+                        <div class="step">
+                            <span class="step-time">10:00 AM</span>
+                            <h3 class="step-title">나주 금성관</h3>
+                            <img src="https://images.unsplash.com/photo-1548013146-72479768bada?w=1280&q=80" alt="나주 금성관 전통 건축물" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">나주목의 객사로 조선시대 나주의 역사와 위상을 보여주는 대표적인 건축물입니다. 웅장한 목조 건물과 정갈한 정원을 산책해 보세요.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">01:00 PM</span>
+                            <h3 class="step-title">나주목 문화관 & 나주읍성</h3>
+                            <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1280&q=80" alt="나주읍성 풍경" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">나주의 역사와 문화를 한눈에 전시해 둔 문화관을 관람하고, 복원된 나주읍성과 서성문 등을 따라 고즈넉한 성곽 길을 걸어보세요.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">04:00 PM</span>
+                            <h3 class="step-title">나주 나씨 문중 가옥 & 향교</h3>
+                            <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1280&q=80" alt="전통 한옥 가옥 풍경" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">오래된 전통 한옥의 미학과 향교의 고요함을 느끼며 마음의 여유를 가질 수 있는 코스입니다.</p>
+                        </div>
+                    </div>
+                    <div class="pro-tip">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <b>여행 꿀팁:</b> 금성관 주변은 고즈넉한 한옥 마을 분위기가 남아 있어 천천히 도보로 둘러보기 가장 좋습니다.
+                    </div>
+                </div>
+            </article>
+
+            <!-- Plan B: Gourmet -->
+            <article id="naju-plan-B" class="course-card">
+                <div class="course-header">
+                    <span class="course-tag">#나주곰탕 #영산포홍어 #식도락</span>
+                    <h2>[미식 기행] 나주곰탕 & 향토 음식 코스</h2>
+                    <p>깊고 맑은 국물의 진수, 원조 나주곰탕과 남도 별미를 맛보는 식도락 여행입니다.</p>
+                </div>
+                <div class="course-body">
+                    <div class="timeline">
+                        <div class="step">
+                            <span class="step-time">11:30 AM</span>
+                            <h3 class="step-title">나주곰탕 거리 (원조 곰탕)</h3>
+                            <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1280&q=80" alt="나주곰탕 요리" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">맑은 육수에 고기가 듬뿍 들어간 전통 나주곰탕입니다. 토렴해서 나오는 따뜻하고 깊은 국물 맛이 일품입니다.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">02:30 PM</span>
+                            <h3 class="step-title">영산포 홍어거리</h3>
+                            <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=1280&q=80" alt="홍어 및 남도 요리" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">내륙 물류의 중심이었던 영산포항의 역사와 함께 톡 쏘는 홍어 삼합의 진수를 맛볼 수 있는 거리입니다.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">05:00 PM</span>
+                            <h3 class="step-title">나주 배 음료 & 디저트 카페</h3>
+                            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1280&q=80" alt="카페 디저트 및 음료" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">나주의 특산물인 달콤한 '나주 배'를 활용한 음료, 스무디, 빵을 판매하는 로컬 카페에서 달콤하게 휴식을 취하세요.</p>
+                        </div>
+                    </div>
+                    <div class="pro-tip">
+                        <i class="fa-solid fa-utensils"></i>
+                        <b>맛집 꿀팁:</b> 점심 피크 시간대에는 나주곰탕 거리에 대기가 있을 수 있으니 조금 이른 시간에 방문하시는 것을 추천합니다.
+                    </div>
+                </div>
+            </article>
+
+            <!-- Plan C: Nature & Healing -->
+            <article id="naju-plan-C" class="course-card">
+                <div class="course-header">
+                    <span class="course-tag">#영산강 #황포돛배 #빛가람전망대</span>
+                    <h2>[강변 산책] 영산강 힐링 & 전망 코스</h2>
+                    <p>탁 트인 영산강을 따라 흐르는 바람을 느끼고, 야경과 전망을 즐기는 힐링 코스입니다.</p>
+                </div>
+                <div class="course-body">
+                    <div class="timeline">
+                        <div class="step">
+                            <span class="step-time">02:00 PM</span>
+                            <h3 class="step-title">영산강 황포돛배 & 자전거길</h3>
+                            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1280&q=80" alt="영산강 강변 풍경" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">영산강을 유람하는 황포돛배를 체험하거나 강변을 따라 조성된 산책로·자전거길에서 여유로운 시간을 보내보세요.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">04:30 PM</span>
+                            <h3 class="step-title">빛가람 호수공원</h3>
+                            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1280&q=80" alt="빛가람 호수공원 풍경" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">혁신도시에 위치한 넓은 호수공원입니다. 잔잔한 호수 주변을 산책하고 음악분수와 조형물을 감상하기 좋습니다.</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-time">07:00 PM</span>
+                            <h3 class="step-title">빛가람 전망대</h3>
+                            <img src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1280&q=80" alt="빛가람 전망대 야경" class="step-img" loading="lazy">
+                            <p class="image-credit">사진: Unsplash</p>
+                            <p class="step-desc">모노레일을 타고 올라가 나주 혁신도시와 영산강 야경을 한눈에 조망하며 당일치기 여행을 아름답게 마무리하세요.</p>
+                        </div>
+                    </div>
+                    <div class="pro-tip">
+                        <i class="fa-solid fa-water"></i>
+                        <b>힐링 꿀팁:</b> 빛가람 전망대 모노레일은 마감 시간이 있으니 일몰 시간 전에 미리 탑승하시는 것을 권장합니다.
+                    </div>
+                </div>
+            </article>
+
+            <!-- Like Bar -->
+            <div class="social-bar">
+                <button class="like-btn" id="najuLikeBtn">
+                    <i class="fa-regular fa-heart"></i> 이 코스가 마음에 들어요 <span id="najuLikeCount">29</span>
+                </button>
+                <div style="flex: 1;"></div>
+                <div class="social-icons" style="color: var(--text-muted); font-size: 18px; display: flex; gap: 15px;">
+                    <i class="fa-brands fa-instagram" style="cursor: pointer;"></i>
+                    <i class="fa-brands fa-facebook" style="cursor: pointer;"></i>
+                    <i class="fa-solid fa-share-nodes" style="cursor: pointer;"></i>
+                </div>
+            </div>
+
+            <!-- Comments -->
+            <section class="comments-section">
+                <h3><i class="fa-solid fa-comments"></i> 나주 실시간 여행자 리뷰</h3>
+                
+                <div class="comment-form">
+                    <form id="najuCommentForm">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="form-group">
+                                <label>닉네임</label>
+                                <input type="text" id="najuAuthor" placeholder="이름을 입력하세요" required>
+                            </div>
+                            <div class="form-group">
+                                <label>방문 성격</label>
+                                <select id="najuCommentTag">
+                                    <option value="visited">다녀왔어요</option>
+                                    <option value="info">정보공유</option>
+                                    <option value="curious">궁금해요</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>댓글 내용</label>
+                            <textarea id="najuContent" placeholder="여행 팁이나 소감을 남겨주세요" required></textarea>
+                        </div>
+
+                        <!-- Smart Guard Section -->
+                        <div class="smart-guard">
+                            <span class="quiz-title"><i class="fa-solid fa-shield-halved"></i> <b>Smart Guard:</b> 나주를 대표하는 전통 국밥 이름은? (2글자)</span>
+                            <div class="quiz-box">
+                                <span class="quiz-question">정답:</span>
+                                <input type="text" id="najuQuizAnswer" class="quiz-input" placeholder="곰탕" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn">나주 리뷰 등록하기</button>
+                    </form>
+                </div>
+
+                <ul class="comments-list" id="najuCommentsList">
+                    <li class="comment-item">
+                        <div class="comment-meta">
+                            <span class="comment-author">식도락가</span>
+                            <span class="comment-tag tag-visited">다녀왔어요</span>
+                        </div>
+                        <p class="comment-content">나주곰탕 국물이 정말 깔끔하고 진국이네요! 금성관 산책도 고즈넉하고 좋았습니다.</p>
+                        <span class="comment-date">2026.10.30</span>
+                    </li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
     <footer>
         <span class="footer-logo">KoreaTrip Platform</span>
         <p>&copy; 2026 KoreaTrip Platform. All rights reserved.</p>
-        <p style="margin-top: 10px; font-size: 12px;">목포 & 광주 당일치기 여행 가이드 | 제휴 문의: hello@koreatrip.com</p>
+        <p style="margin-top: 10px; font-size: 12px;">목포, 광주 & 나주 당일치기 여행 가이드 | 제휴 문의: hello@koreatrip.com</p>
     </footer>
 
     <div id="toast" class="toast">메시지가 표시됩니다.</div>
@@ -809,9 +1019,15 @@
 
             document.getElementById('navMokpo').classList.remove('active');
             document.getElementById('navGwangju').classList.remove('active');
+            document.getElementById('navNaju').classList.remove('active');
             document.getElementById('nav' + cityName.charAt(0).toUpperCase() + cityName.slice(1)).classList.add('active');
 
-            showToast(cityName === 'mokpo' ? '목포 여행 가이드를 불러왔습니다.' : '광주 여행 가이드를 불러왔습니다.');
+            const msgs = {
+                'mokpo': '목포 여행 가이드를 불러왔습니다.',
+                'gwangju': '광주 여행 가이드를 불러왔습니다.',
+                'naju': '나주 여행 가이드를 불러왔습니다.'
+            };
+            showToast(msgs[cityName]);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -825,12 +1041,12 @@
             
             const btns = container.querySelectorAll('.tab-btn');
             btns.forEach(btn => {
-                if(btn.innerText.includes('Plan ' + planId)) {
+                if(btn.innerText.includes('Plan ' + planId) || btn.innerText.includes(planId)) {
                     btn.classList.add('active');
                 }
             });
             
-            showToast(city.toUpperCase() + ' Plan ' + planId + ' 코스를 확인합니다.');
+            showToast(city.toUpperCase() + ' 코스를 확인합니다.');
         }
 
         // Like Buttons
@@ -866,6 +1082,7 @@
         }
         setupLike('mokpo');
         setupLike('gwangju');
+        setupLike('naju');
 
         // Comment System
         function setupComments(city, correctQuiz) {
@@ -908,6 +1125,7 @@
         }
         setupComments('mokpo', '유달산');
         setupComments('gwangju', '무등산');
+        setupComments('naju', '곰탕');
 
         // Toast Function
         function showToast(message) {
